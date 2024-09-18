@@ -1,0 +1,137 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Upload Files";
+}
+
+@model StarStocksWeb.Frameworks.ViewModels.UploadFileViewModel
+
+@section AddToHead
+{
+    <!--  修改 fileinput buuton text  -->
+    <style type="text/css">
+        .custom-file-input:lang(en) ~ .custom-file-label::after {
+            content: "瀏覽" !important;
+        }
+    </style>
+}
+
+<div class="container-fluid">
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Upload Files</h1>
+        @*<a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>*@
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <div class="card-body">
+                @using ( Html.BeginForm( "UploadFiles", "UploadFile", FormMethod.Post, new { id = "UploadForm", enctype = "multipart/form-data" } ) )
+                {
+                    <div class="form-row">
+                        <div class="col-sm-9 offset-1 input-group mb-4">
+                            <div class="custom-file ">
+                                @Html.TextBoxFor( x => x.HighVolCheaplies, new { name = "HighVolCheaplies", type = "file", @class = "custom-file-input" } )
+                                <label class="custom-file-label" for="HighVolCheaplies">Choose HIGH VOLUME CHEAPLIES</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="col-sm-9 offset-1 input-group mb-4">
+                            <div class="custom-file ">
+                                @Html.TextBoxFor( x => x.HighVolLeaps, new { name = "HighVolLeaps", type = "file", @class = "custom-file-input" } )
+                                <label class="custom-file-label" for="HighVolLeaps">Choose HIGH VOLUME LEAPS</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="col-sm-9 offset-1 input-group mb-4">
+                            <div class="custom-file ">
+                                @Html.TextBoxFor( x => x.MostOtmStrikes, new { name = "MostOtmStrikes", type = "file", @class = "custom-file-input" } )
+                                <label class="custom-file-label" for="MostOtmStrikes">Choose MOST OTM STRIKES</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="col-sm-9 offset-1 input-group mb-4">
+                            <div class="custom-file ">
+                                @Html.TextBoxFor( x => x.LargeOtmOi, new { name = "LargeOtmOi", type = "file", @class = "custom-file-input" } )
+                                <label class="custom-file-label" for="LargeOtmOi">Choose LARGE OTM OI</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="col-sm-9 offset-1 input-group mb-4">
+                            <div class="custom-file ">
+                                @Html.TextBoxFor( x => x.CallsDashboard, new { name = "CallsDashboard", type = "file", @class = "custom-file-input" } )
+                                <label class="custom-file-label" for="CallsDashboard">Choose CALLS MARKET DASHBOARD</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="col-sm-9 offset-1 input-group mb-4">
+                            <div class="custom-file ">
+                                @Html.TextBoxFor( x => x.PutsDashboard, new { name = "PutsDashboard", type = "file", @class = "custom-file-input" } )
+                                <label class="custom-file-label" for="FileBases">Choose PUTS MARKET DASHBOARD</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="col-sm-9 offset-1 input-group mb-4">
+                            <div class="custom-file ">
+                                @Html.TextBoxFor( x => x.DarkpoolTrades, new { name = "DarkpoolTrades", type = "file", @class = "custom-file-input" } )
+                                <label class="custom-file-label" for="DarkpoolTrades">Choose DARKPOOL TRADES TODAY</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="col-sm-9 offset-1 input-group mb-4">
+                            <div class="custom-file ">
+                                @Html.TextBoxFor( x => x.BlockTrades, new { name = "BlockTrades", type = "file", @class = "custom-file-input" } )
+                                <label class="custom-file-label" for="BlockTrades">Choose BLOCK TRADES TODAY</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="col-sm-9 offset-1 input-group mb-4">
+                            <div class="custom-file ">
+                                @Html.TextBoxFor( x => x.DarkpoolTickerDashboard, new { name = "DarkpoolTickerDashboard", type = "file", @class = "custom-file-input" } )
+                                <label class="custom-file-label" for="DarkpoolTickerDashboard">Choose DARKPOOL TICKER DASHBOARD</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p style="text-align: center">
+                        <button type="submit" class="btn btn-primary btn-icon-split sharp" name="btnUpload" id="btnUpload">
+                            <span class="icon text-white-50">
+                                <i class="fas fa-search"></i>
+                            </span>
+                            <span class="text">搜尋</span>
+                        </button>
+                    </p>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script src="~/vendor/bs-custom-file-input.js"></script>
+    <script type="text/javascript" language="javascript">
+        $(document).ready(function () {
+            bsCustomFileInput.init();
+
+        });
+
+    </script>
+}

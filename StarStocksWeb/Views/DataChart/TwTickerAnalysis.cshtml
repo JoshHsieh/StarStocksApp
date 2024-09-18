@@ -1,0 +1,444 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Tw Stock Analysis";
+}
+
+@using StarStocksWeb.Frameworks.ViewModels;
+
+@model StarStocksWeb.Frameworks.ViewModels.TickerAnalysisViewModel
+
+@section AddToHead {
+    <link href="@Url.Content("~/css/buttons.css")" rel="stylesheet">
+    <link href="@Url.Content("~/css/CollapseTable.css")" rel="stylesheet">
+}
+
+<div class="container-fluid">
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">每日價量分析 : @Model.Ticker _ @Model.TickerName</h1>
+        @*<a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>*@
+    </div>
+    <div class="row">
+        <div class="col-2">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary mb-1">總量</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">@Model.TotalVolume</div>
+                        </div>
+                        @*<div class="col-auto">
+                                <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                            </div>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-2">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary mb-1">漲跌</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">@Model.NetChange</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-2">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary mb-1">震幅</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">@Model.Vibration %</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-2">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary mb-1">總成交筆數<br>(扣除頭尾試搓)</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">@Model.TotalQuote</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-2">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary mb-1">平均單筆成交量<br>(扣除頭尾試搓)</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">@Model.AvgSize</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-2">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary mb-1">大單比例<br>(扣除頭尾試搓)</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">@Model.BigSizeRatio %</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-2">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary mb-1">第一盤量(試搓)</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">@Model.FirstVolume</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-2">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary mb-1">最後一盤(試搓)</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">@Model.LastVolume</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-2">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary mb-1">內盤成交量<br>(扣除頭尾試搓)</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">@Model.BidSize</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-2">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary mb-1">外盤成交量<br>(扣除頭尾試搓)</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">@Model.AskSize </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-2">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary mb-1">內盤成交筆數<br>(扣除頭尾試搓)</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">@Model.BidQuote</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-2">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary mb-1">外盤成交筆數<br>(扣除頭尾試搓)</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">@Model.AskQuote </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-2">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary mb-1">內盤大單比例<br>(扣除頭尾試搓)</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">@Model.SellBigSizeRatio %</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-2">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary mb-1">外盤大單比例<br>(扣除頭尾試搓)</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">@Model.BuyBigSizeRatio %</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-4">
+            <div class="card shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-md-center font-weight-bold text-primary mb-1">內外盤成交量比(扣除頭尾試搓)</div>
+                            <div class="text-md-center mb-0 font-weight-bold"> <span class="text-success">@Model.BidPercent</span> : <span class="text-danger">@Model.AskPercent</span> </div>
+                            <div id="askBidSize">&nbsp;</div>
+                            <input type="hidden" value="@Model.BidPercent" id="hidBidPercent" name="hidBidPercent" />
+                            <input type="hidden" value="@Model.AskPercent" id="hidAskPercent" name="hidAskPercent" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-4">
+            <div class="card shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-md-center font-weight-bold text-primary mb-1">內外盤成交比數比(扣除頭尾試搓)</div>
+                            <div class="text-md-center mb-0 font-weight-bold"> <span class="text-success">@Model.BidQuotePercent</span> : <span class="text-danger">@Model.AskQuotePercent</span> </div>
+                            <div id="askBidQuote">&nbsp;</div>
+                            <input type="hidden" value="@Model.BidQuotePercent" id="hidBidQuotePercent" name="hidBidQuotePercent" />
+                            <input type="hidden" value="@Model.AskQuotePercent" id="hidAskQuotePercent" name="hidAskQuotePercent" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-black-50">依時間段分組(請選擇時間間隔)</h6>
+                    <hr />
+                    @if ( Model.Timeframe == 3 )
+                    {
+                        <button class="btn btn-xs btn-danger outline sharp" onclick="location.href = '@Url.Action("TwTickerAnalysis","DataChart", new { ticker= Model.Ticker, transDate=Model.TransDate, timeFrame="3" })';">3</button>
+                    }
+                    else
+                    {
+                        <button class="btn btn-xs btn-info outline sharp" onclick="location.href = '@Url.Action("TwTickerAnalysis","DataChart", new { ticker= Model.Ticker, transDate=Model.TransDate, timeFrame="3" })';">3</button>
+                    }
+
+                    @if ( Model.Timeframe == 5 )
+                    {
+                        <button class="btn btn-xs btn-danger outline sharp" onclick="location.href = '@Url.Action("TwTickerAnalysis","DataChart", new { ticker= Model.Ticker, transDate=Model.TransDate, timeFrame="5" })';">5</button>
+                    }
+                    else
+                    {
+                        <button class="btn btn-xs btn-info outline sharp" onclick="location.href = '@Url.Action("TwTickerAnalysis","DataChart", new { ticker= Model.Ticker, transDate=Model.TransDate, timeFrame="5" })';">5</button>
+                    }
+
+                    @if ( Model.Timeframe == 10 )
+                    {
+                        <button class="btn btn-xs btn-danger outline sharp" onclick="location.href = '@Url.Action("TwTickerAnalysis","DataChart", new { ticker= Model.Ticker, transDate=Model.TransDate, timeFrame="10" })';">10</button>
+                    }
+                    else
+                    {
+                        <button class="btn btn-xs btn-info outline sharp" onclick="location.href = '@Url.Action("TwTickerAnalysis","DataChart", new { ticker= Model.Ticker, transDate=Model.TransDate, timeFrame="10" })';">10</button>
+                    }
+
+                    @if ( Model.Timeframe == 15 )
+                    {
+                        <button class="btn btn-xs btn-danger outline sharp" onclick="location.href = '@Url.Action("TwTickerAnalysis","DataChart", new { ticker= Model.Ticker, transDate=Model.TransDate, timeFrame="15" })';">15</button>
+                    }
+                    else
+                    {
+                        <button class="btn btn-xs btn-info outline sharp" onclick="location.href = '@Url.Action("TwTickerAnalysis","DataChart", new { ticker= Model.Ticker, transDate=Model.TransDate, timeFrame="15" })';">15</button>
+                    }
+
+                    @if ( Model.Timeframe == 30 )
+                    {
+                        <button class="btn btn-xs btn-danger outline sharp" onclick="location.href = '@Url.Action("TwTickerAnalysis","DataChart", new { ticker= Model.Ticker, transDate=Model.TransDate, timeFrame="30" })';">30</button>
+
+                    }
+                    else
+                    {
+                        <button class="btn btn-xs btn-info outline sharp" onclick="location.href = '@Url.Action("TwTickerAnalysis","DataChart", new { ticker= Model.Ticker, transDate=Model.TransDate, timeFrame="30" })';">30</button>
+                    }
+                </div>
+                <div class="card-body">
+                    @if ( Model.TimeSeriesDisplayDic != null && Model.TimeSeriesDisplayDic.Count > 0 )
+                    {
+                        <table class="table table-striped table-hover" cellpadding="10">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>時段</th>
+                                    <th>成交量</th>
+                                    <th>震幅&nbsp;<i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="(K線結束價-本日開盤價)/本日開盤價"></i></th>
+                                    <th>漲跌幅&nbsp;<i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="(K線結束價-本日開盤價)/昨日收盤價"></i></th>
+                                    <th>平均量&nbsp;<i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="成交量/成交筆數"></i></th>
+                                    <th>內盤大單比</th>
+                                    <th>內盤成交比</th>
+                                    <th>外盤成交比</th>
+                                    <th>外盤大單比</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ( KeyValuePair<string, GroupQuoteAnalysisViewModel> kvp in Model.TimeSeriesDisplayDic )
+                                {
+                                    var gqvm = kvp.Value;
+                                    <tr>
+                                        <td>@Html.Raw( kvp.Key )</td>
+                                        <td>@Html.Raw( gqvm.TotalVolume )</td>
+                                        <td>@Html.Raw( gqvm.NetChangeRatioSinceOpen )%</td>
+                                        <td>@Html.Raw( gqvm.NetChangeRatio )%</td>
+                                        <td>@Html.Raw( gqvm.AvgQuoteSize )</td>
+                                        <td>@Html.Raw( gqvm.SellSideBigSizeRatio )%</td>
+                                        <td>@Html.Raw( gqvm.SellSideRatio )%</td>
+                                        <td>@Html.Raw( gqvm.BuySideRatio )%</td>
+                                        <td>@Html.Raw( gqvm.BuySideBigSizeRatio )%</td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-6">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-success">內盤大單分布</h6>
+                </div>
+                <div class="card-body">
+                    @if ( Model.BidList != null && Model.BidList.Any() )
+                    {
+                        int i = 1;
+
+                        <table id="tblBigBid" class="table table-striped table-hover" cellpadding="10">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th></th>
+                                    <th>交易時間</th>
+                                    <th>漲跌</th>
+                                    <th>成交價</th>
+                                    <th>成交量</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ( var bid in Model.BidList )
+                                {
+                                    <tr>
+                                        <td>@i</td>
+                                        <td>@Html.Raw( bid.TransDate.Value.ToString( "yyyy-MM-dd HH:mm:ss" ) )</td>
+                                        <td>@Html.Raw( bid.NetChange )</td>
+                                        <td>@Html.Raw( bid.LastPrice )</td>
+                                        <td>@Html.Raw( bid.Size )</td>
+                                    </tr>
+
+                                    i++;
+                                }
+                            </tbody>
+                        </table>
+                    }
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-6">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-danger">外盤大單分布</h6>
+                </div>
+                <div class="card-body">
+                    @if ( Model.AskList != null && Model.AskList.Any() )
+                    {
+                        int i = 1;
+
+                        <table id="tblBigAsk" class="table table-striped table-hover" cellpadding="10">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th></th>
+                                    <th>交易時間</th>
+                                    <th>漲跌</th>
+                                    <th>成交價</th>
+                                    <th>成交量</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ( var ask in Model.AskList )
+                                {
+                                    <tr>
+                                        <td>@i</td>
+                                        <td>@Html.Raw( ask.TransDate.Value.ToString( "yyyy-MM-dd HH:mm:ss" ) )</td>
+                                        <td>@Html.Raw( ask.NetChange )</td>
+                                        <td>@Html.Raw( ask.LastPrice )</td>
+                                        <td>@Html.Raw( ask.Size )</td>
+                                    </tr>
+
+                                    i++;
+                                }
+                            </tbody>
+                        </table>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script type="text/javascript" language="javascript">
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+
+            var bidSizePercent = $("#hidBidPercent").val();
+            var askSizePercent = 100 - parseInt($("#hidAskPercent").val());
+
+            //console.log(String.format('linear-gradient(to right, #1cc88a 0%, #1cc88a {0}%, #e74a3b {1}%, #e74a3b 100%);', bidSizePercent, askSizePercent));
+            $('#askBidSize').css({ 'background-image': String.format('linear-gradient(to right, #1cc88a 0%, #1cc88a {0}%, #e74a3b {1}%, #e74a3b 100%)', bidSizePercent, askSizePercent) });
+
+            var bidQuotePercent = $("#hidBidQuotePercent").val();
+            var askQuotePercent = 100 - parseInt($("#hidAskQuotePercent").val());
+            $('#askBidQuote').css({ 'background-image': String.format('linear-gradient(to right, #1cc88a 0%, #1cc88a {0}%, #e74a3b {1}%, #e74a3b 100%)', bidQuotePercent, askQuotePercent) });
+        });
+
+    </script>
+}

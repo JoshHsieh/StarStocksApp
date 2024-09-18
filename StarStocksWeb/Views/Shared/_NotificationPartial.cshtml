@@ -1,0 +1,163 @@
+﻿@using StarStocksWeb.Frameworks.Helpers
+
+@{
+    // 處理 alert
+    var alert = TempData.ContainsKey( ResponseMessage.TempDataKey )
+                ? ( ResponseMessage ) TempData[ResponseMessage.TempDataKey]
+                : new ResponseMessage();
+
+    if ( alert != null )
+    {
+        if ( alert.DetailMessageList != null && alert.DetailMessageList.Count > 0 )
+        {
+            <script type="text/javascript">
+
+                @*var notifications = @Html.Raw(
+                                   Json.Encode( string.Join(Environment.NewLine, alerts.Select(x => x.Message)))
+                                );*@
+                var note = @Html.Raw( Json.Serialize( alert ) );
+
+                var noteDetails = @Html.Raw( Json.Serialize( alert.DetailMessageList ) );
+
+                // 關掉 loading
+                $('#content').busyLoad('hide');
+
+                toastr.warning(note.Message,'警告!', { timeOut: 0, extendedTimeOut: 0, closeButton: true });
+
+                $("#divAlert").html("");
+
+                $.each(noteDetails, function (key, value) {
+
+                    //console.log( 'vv:' + value );
+
+                    $("#divAlert").append("<div class='alert alert-warning alert-dismissible fade show' role='alert'>" +
+                        "<button type='button' class='close' data-dismiss='alert' aria-label='Close' aria-hidden='true'><span aria-hidden='true'>&times;</span></button>" +
+                        value +
+                        "</div>");
+                });
+            </script>
+        }
+        else
+        {
+            // 沒有 detail message 的狀況
+            <script type="text/javascript">
+            @*var notifications = @Html.Raw(
+                                   Json.Encode( string.Join(Environment.NewLine, alerts.Select(x => x.Message)))
+                                );*@
+
+                var note = @Html.Raw( Json.Serialize( alert ) );
+
+                // 關掉 loading
+                $('#content').busyLoad('hide');
+
+                if ( note.Style == "warning" )
+                {
+                    toastr.warning(note.Message,'警告!', { timeOut: 0, extendedTimeOut: 0, closeButton: true });
+                }
+
+                if ( note.Style == "success" )
+                {
+                    toastr.success(note.Message,'成功!', { timeOut: 0, extendedTimeOut: 0, closeButton: true });
+                }
+
+                if ( note.Style == "danger" )
+                {
+                    toastr.error(note.Message,'錯誤!', { timeOut: 0, extendedTimeOut: 0, closeButton: true });
+                }
+
+                if ( note.Style == "info" )
+                {
+                    toastr.info(note.Message,'注意!', { timeOut: 0, extendedTimeOut: 0, closeButton: true });
+                }
+
+            </script>
+        }
+    }
+
+    // 處理 Model Validation Message
+    if ( !ViewData.ModelState.IsValid )
+    {
+        if ( ViewData.ModelState.Values.Any() )
+        {
+            <script type="text/javascript">
+                var errors = @Html.Raw( Json.Serialize( ViewData.ModelState
+                                             .Where( x => x.Value.Errors.Count > 0 )
+                                             .SelectMany( x => x.Value.Errors )
+                                             .Select( error => error.ErrorMessage ) ) );
+
+                // 關掉 loading
+                $('#content').busyLoad('hide');
+
+                $.each(errors, function (key, value) {
+                    toastr.warning(value,'警告!', { timeOut: 0, extendedTimeOut: 0, closeButton: true });
+                });
+            </script>
+        }
+    }
+
+    <script type="text/javascript" language="javascript">
+        $.validator.setDefaults({
+            onsubmit: true,
+            onkeyup: false,
+            onfocusout: false,
+            onclick : false,
+            //showErrors: function (errorMap, errorList) {
+            //    if (errorList.length > 0) {
+            //        var errors = errorList.map(function (element) {
+            //            return element.message;
+            //        }).join('\r\n');
+            //    }
+            //}
+        });
+
+        @* 處理 jquery validator warning message *@
+
+        var settings = {
+            errorElement: "span",
+            errorClass: "help-block",
+            //errorPlacement: function (error, element) {
+            //    console.log('errorPlacement function was called');
+            //    console.log('errorPlacement... this never gets called :(', error, element);
+            //    //var elm = $(element);
+
+            //    //if (elm.parent('.input-group').length || elm.parent('.input-group-custom').length) {
+            //    //    error.insertAfter(elm.parent());
+            //    //}
+            //    //else if (elm.prop('type') === 'checkbox' || elm.prop('type') === 'radio') {
+            //    //    error.appendTo(elm.closest(':not(input, label, .checkbox, .radio)').first());
+            //    //} else {
+            //    //    error.insertAfter(elm);
+            //    //}
+            //    toastr.error(error.html(),'表單內容有誤!', { timeOut: 0 });
+            //},
+            errorPlacement: function (error, element) {
+                if (error.length > 0) {
+
+                    //console.log('a :' + $("span.help-block").text());
+
+                    //console.log('b :' + error.html());
+
+                    if ( error.html() != '' || error.html().length != 0 ) {
+
+                        // 關掉 loading
+                        $('#content').busyLoad('hide');
+
+                        toastr.error(error.html(),'表單內容有誤!', { timeOut: 0, extendedTimeOut: 0, closeButton: true });
+                    }
+
+                  }
+              }
+            //submitHandler: function (form) {
+            //    showLoading();
+            //    form.submit();
+            //}
+        }
+
+        $.validator.unobtrusive.options = settings;
+    </script>
+}
+
+
+
+
+

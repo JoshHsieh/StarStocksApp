@@ -1,0 +1,177 @@
+﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+
+a.navbar-brand {
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
+}
+
+/* Provide sufficient contrast against white background */
+a {
+    color: #0366d6;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+.border-top {
+    border-top: 1px solid #e5e5e5;
+}
+
+.border-bottom {
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow {
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy {
+    font-size: 1rem;
+    line-height: inherit;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+/*body {*/
+/* Margin bottom by footer height */
+/*margin-bottom: 60px;
+}*/
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px; /* Vertically center the text there */
+}
+
+/*------------------------------------*\
+     $Expandable Div
+ \*------------------------------------*/
+.toggle-box {
+    display: none;
+}
+
+    .toggle-box + label {
+        cursor: pointer;
+        display: block;
+        font-weight: bold;
+        line-height: 21px;
+        margin-bottom: 5px;
+        margin-top: 8px;
+        margin-left: 10px;
+    }
+
+        .toggle-box + label:before {
+            background-color: #0F56C0;
+            -webkit-border-radius: 10px;
+            -moz-border-radius: 10px;
+            border-radius: 10px;
+            color: #FFFFFF;
+            content: "DP";
+            display: block;
+            float: left;
+            font-weight: bold;
+            height: 20px;
+            line-height: 20px;
+            margin-right: 5px;
+            text-align: center;
+            width: 20px;
+        }
+
+    .toggle-box:checked + label:before {
+        content: "\2212";
+    }
+
+.toggle-div {
+    display: none;
+    width: 100%;
+    margin-top: 8px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    border: 0px rgb(123, 217, 21) dashed;
+}
+
+.toggle-button-div {
+    display: none;
+    width: 100%;
+    margin-top: 5px;
+    float: left;
+    position: relative;
+    left: 50%; /* or right 50% */
+    text-align: left;
+}
+
+
+/*** flat button ***/
+.flatButton-md {
+    background-color: #2677E0;
+    border: 1px solid #589FFC;
+    display: inline-block;
+    cursor: pointer;
+    color: #ffffff;
+    font-family: FontAwesome,"微軟正黑體", Microsoft Jhenghei, Arial, Helvetica;
+    font-size: 16px;
+    padding: 12px 30px;
+    text-decoration: none;
+    text-shadow: 0px 1px 0px #589FFC;
+}
+
+    .flatButton-md:hover {
+        background-color: #589FFC;
+    }
+
+    .flatButton-md:active {
+        position: relative;
+        top: 1px;
+    }
+
+.flatButton-md-yellow {
+    background-color: #adff2f; /* GreenYellow */
+    border: 1px solid #9ACD32;
+    display: inline-block;
+    cursor: pointer;
+    color: #ffffff;
+    font-family: FontAwesome,"微軟正黑體", Microsoft Jhenghei, Arial, Helvetica;
+    font-size: 16px;
+    padding: 12px 30px;
+    text-decoration: none;
+    text-shadow: 0px 1px 0px #adff2f;
+}
+
+    .flatButton-md-yellow:hover {
+        background-color: #589FFC;
+    }
+
+    .flatButton-md-yellow:active {
+        position: relative;
+        top: 1px;
+    }

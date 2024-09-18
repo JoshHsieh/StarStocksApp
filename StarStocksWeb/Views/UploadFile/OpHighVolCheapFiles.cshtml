@@ -1,0 +1,139 @@
+﻿@{
+    ViewData["Title"] = "HIGH VOLUME CHEAPLIES";
+}
+
+@model StarStocksWeb.Frameworks.ViewModels.UploadFileViewModel
+
+@section AddToHead
+{
+    <!--  修改 fileinput buuton text  -->
+    <style type="text/css">
+        .custom-file-input:lang(en) ~ .custom-file-label::after {
+            content: "瀏覽" !important;
+        }
+    </style>
+}
+
+<div class="container-fluid">
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Upload Files</h1>
+        @*<a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>*@
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <ul class="nav nav-pmTabs" id="pmTab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link" id="tab1" href="@Url.Action( "OpHighVolCheapFiles", "UploadFile" )" role="tab" aria-controls="tab1" aria-selected="true"><i class="fas fa-print fa-lg"></i>&nbsp;待列印發票</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" id="tab2" href="@Url.Action( "OpHighVolLeapFiles", "UploadFile" )" role="tab" aria-controls="tab2" aria-selected="true"><i class="fas fa-print fa-lg"></i>&nbsp;所有可列印發票</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="tab3" href="@Url.Action( "OpMostOtmStrikesFiles", "UploadFile" )" role="tab" aria-controls="tab3" aria-selected="false"><i class="fas fa-redo fa-lg"></i>&nbsp;補印發票</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="tab4" href="@Url.Action( "OpLargeOtmOiFiles", "UploadFile" )" role="tab" aria-controls="tab4" aria-selected="false"><i class="fas fa-list-alt fa-lg"></i>&nbsp;只需列印明細請來這邊</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="tab5" href="@Url.Action( "OpCallFiles", "UploadFile" )" role="tab" aria-controls="tab5" aria-selected="false"><i class="fas fa-list-alt fa-lg"></i>&nbsp;只需列印明細請來這邊</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="tab6" href="@Url.Action( "OpPutFiles", "UploadFile" )" role="tab" aria-controls="tab6" aria-selected="false"><i class="fas fa-list-alt fa-lg"></i>&nbsp;只需列印明細請來這邊</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="tab7" href="@Url.Action( "DarkPoolTradeFiles", "UploadFile" )" role="tab" aria-controls="tab7" aria-selected="false"><i class="fas fa-list-alt fa-lg"></i>&nbsp;只需列印明細請來這邊</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="tab8" href="@Url.Action( "BlockTradeFiles", "UploadFile" )" role="tab" aria-controls="tab8" aria-selected="false"><i class="fas fa-list-alt fa-lg"></i>&nbsp;只需列印明細請來這邊</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="tab9" href="@Url.Action( "DarkpoolDashboardFiles", "UploadFile" )" role="tab" aria-controls="tab9" aria-selected="false"><i class="fas fa-list-alt fa-lg"></i>&nbsp;只需列印明細請來這邊</a>
+                </li>
+            </ul>
+            <div class="tab-content pmtab-content" id="pmTabContent">
+                <div class="tab-pane fade show active" id="index" role="tabpanel" aria-labelledby="indexTab">
+
+                    <div class="card mb-4" style="margin-top:10px">
+                        <div class="card-header py-3">
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <div id="divAlert" class="col-sm-9 offset-1 mb-4">
+                                        @*這裡會插入驗證無效的詳細資料*@
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col">
+                                    <hr />
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-sm">
+                                    <div class="float-left">
+                                        <!-- 放入各種工具列 -->
+                                    </div>
+                                </div>
+                                <div class="col-sm">
+                                    <div class="float-right">
+                                        <a href="@Url.Action( "UploadFiles", "UploadFile" )" class="btn btn-primary btn-icon-split sharp" style="margin-top:10px;margin-bottom: 10px;">
+                                            <span class="icon text-white-50">
+                                                <i class="fas fa-upload"></i>
+                                            </span>
+                                            <span class="text">Upload File</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-hover table-striped" id="gvPrintableInv" cellspacing="0">
+                                            <thead>
+                                                <tr>
+                                                    <th></th>
+                                                    <th></th>
+                                                    <th>發票號碼</th>
+                                                    <th>隨機碼</th>
+                                                    <th>開立日期</th>
+                                                    <th>客戶統編</th>
+                                                    <th>客戶抬頭</th>
+                                                    <th>總價</th>
+                                                </tr>
+                                            </thead>
+                                            <tfoot>
+                                                <tr>
+                                                    <th></th>
+                                                    <th></th>
+                                                    <th>發票號碼</th>
+                                                    <th>隨機碼</th>
+                                                    <th>開立日期</th>
+                                                    <th>客戶統編</th>
+                                                    <th>客戶抬頭</th>
+                                                    <th>總價</th>
+                                                </tr>
+                                            </tfoot>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                        <!---------  分頁  --------->
+                                        <!-- hidden field -->
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

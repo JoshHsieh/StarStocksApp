@@ -1,0 +1,17 @@
+﻿#tblDetail {
+    width: 100%;
+    text-align: left;
+    border-collapse: collapse;
+    border: #A4A4A4;
+}
+
+
+    #tblDetail .hidden_row {
+        display: none;
+        border-bottom: 1pt solid #A4A4A4;
+    }
+
+    #tblDetail .display_row {
+        background-color: #acea11;
+        border-bottom: 1pt dashed #b4b4b4;
+    }

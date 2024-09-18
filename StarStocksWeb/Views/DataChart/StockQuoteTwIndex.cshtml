@@ -1,0 +1,116 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Tw Stock Quote";
+}
+
+@model StarStocksWeb.Frameworks.ViewModels.StockQuoteTwViewModel
+
+@section AddToHead {
+    <link href="@Url.Content("~/css/CollapseTable.css")" rel="stylesheet">
+    <link href="@Url.Content("~/vendor/icheck-material/icheck-material.min.css")" rel="stylesheet">
+    <link href="@Url.Content("~/vendor/icheck-material/icheck-material-custom.min.css")" rel="stylesheet">
+}
+
+<div class="container-fluid">
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Darkpool Value Cross Average</h1>
+        @*<a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>*@
+    </div>
+
+    <!-- Content Row -->
+    <div class="row">
+        <div class="col mx-auto">
+            <div class="card mb-5">
+                <div class="card-body">
+                    @if ( Model.TickerTransDateGroup != null && Model.TickerTransDateGroup.Any() )
+                    {
+                        <table id="tblDetail" cellpadding="10">
+                            <thead>
+                                <tr>
+                                    <th class="w-5"></th>
+                                    <th class="w-15">交易日</th>
+                                    <th class="w-5">漲跌</th>
+                                    <th class="w-5">震幅(%)</th>
+                                    <th>總量</th>
+                                    <th>平均單筆量</th>
+                                    <th>大單比例(%)</th>
+                                    <th class="w-25">重大事項</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ( var d in Model.TickerTransDateGroup.Keys )
+                                {
+                                    <tr onclick="showHideRow('@Html.Raw( "hidden_" + d )');">
+                                        <td colspan="8" class="display_row text-lg">
+                                            <label for="@Html.Raw( d )"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;@Html.Raw( d ) (click me)</label>
+                                        </td>
+                                    </tr>
+                                    @if ( Model.TickerTransDateGroup[d] != null && Model.TickerTransDateGroup[d].Count > 0 )
+                                    {
+                                        int i = 1;
+
+                                        @foreach ( var item in Model.TickerTransDateGroup[d] )
+                                        {
+                                            var daBoardUnit = Model.TickerTransDateDashboard.Where( x => x.Ticker == d && x.TransDate == item ).FirstOrDefault();
+
+                                            <tr id="@Html.Raw( "row"+ i )" class="@Html.Raw( "hidden_row hidden_"+d ) ">
+                                                <td class="text-center" width="6%">
+                                                    <div class="icheck-material-lightgreen">
+                                                        <input type="checkbox" value="@Html.Raw( $"{d}_{item}" )" name="chkInv" id="@Html.Raw( $"{d}_{item}" )">
+                                                        <label for="@Html.Raw( $"{d}_{item}" )"></label>
+                                                    </div>
+                                                </td>
+                                                <td class="text-left">
+                                                    <a href="@Url.Action("TwTickerAnalysis", "DataChart", new { ticker = d, transDate = item })">@Html.Raw( item )</a>
+                                                </td>
+                                                <td>
+                                                    @Html.Raw( daBoardUnit.NetChange )
+                                                </td>
+                                                <td>@Html.Raw( daBoardUnit.Vibration )</td>
+                                                <td>@Html.Raw( daBoardUnit.TotalVolume )</td>
+                                                <td>@Html.Raw( daBoardUnit.AvgSize )</td>
+                                                <td>@Html.Raw( daBoardUnit.BigSizeRatio )</td>
+                                                <td>
+                                                    @if ( string.IsNullOrEmpty( daBoardUnit.EventMessage ) != true )
+                                                    {
+                                                        <div class="p-3 bg-gradient-warning text-white">@Html.Raw( daBoardUnit.EventMessage )</div>
+                                                    }
+
+                                                </td>
+                                            </tr>
+                                            i++;
+                                        }
+
+                                    }
+                                }
+
+                            </tbody>
+
+                        </table>
+                    }
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script type="text/javascript" language="javascript">
+        function showHideRow(row) {
+            $("." + row).toggle();
+        }
+    </script>
+    <script type="text/javascript" language="javascript">
+        $(document).ready(function () {
+            $('#tblDetail .hidden_row').hide();
+
+        });
+
+    </script>
+}

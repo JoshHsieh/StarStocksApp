@@ -1,0 +1,97 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Darkpool Value Cross Average";
+}
+
+@model StarStocksWeb.Frameworks.ViewModels.DarkpoolChartViewModel
+
+@section AddToHead {
+    <link href="@Url.Content("~/vendor/icheck-material/icheck-material.min.css")" rel="stylesheet">
+    <link href="@Url.Content("~/vendor/icheck-material/icheck-material-custom.min.css")" rel="stylesheet">
+}
+
+<div class="container-fluid">
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Darkpool Value Cross Average</h1>
+        @*<a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>*@
+    </div>
+
+    <!-- Content Row -->
+    <div class="row">
+        <div class="col">
+            <div class="card-body">
+                @if ( Model.CrossAvgDictByDateGroup != null && Model.CrossAvgDictByDateGroup.Any() )
+                {
+                    foreach ( var d in Model.CrossAvgDictByDateGroup )
+                    {
+                        <h4><i class="fa fa-calendar" aria-hidden="true"></i>&nbsp;@d.Key</h4>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover table-striped" id="gvPrintableInv" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Ticker</th>
+                                        <th>當日DP交易值</th>
+                                        <th>當日DP交易價</th>
+                                        <th>當日大宗交易價差</th>
+                                        <th>過去5日DP交易均值</th>
+                                        <th>過去5日大宗交易價差</th>
+                                    </tr>
+                                </thead>
+                                <tfoot>
+                                    <tr>
+                                        <th></th>
+                                        <th>Ticker</th>
+                                        <th>當日DP交易額</th>
+                                        <th>當日DP交易價</th>
+                                        <th>當日大宗交易價差</th>
+                                        <th>過去5日DP交易均值</th>
+                                        <th>過去5日大宗交易價差</th>
+                                    </tr>
+                                </tfoot>
+                                <tbody>
+                                    @if ( d.Value != null && d.Value.Any() )
+                                    {
+                                        int i = 1;
+
+                                        foreach ( var item in d.Value )
+                                        {
+                                            <tr>
+                                                <td>@i</td>
+                                                <td>
+                                                    @item.Ticker
+                                                </td>
+                                                <td>
+                                                    @item.DateValue
+                                                </td>
+                                                <td>
+                                                    @Math.Round( item.Price, 2 )
+                                                </td>
+                                                <td>
+                                                    @item.NetValue
+                                                </td>
+                                                <td>
+                                                    @item.AvgValue
+                                                </td>
+                                                <td>
+                                                    @item.AvgNetValue
+                                                </td>
+                                            </tr>
+
+                                            i++;
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+
+                        </div>
+                        <hr />
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>

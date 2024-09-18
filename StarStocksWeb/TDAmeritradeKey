@@ -1,0 +1,9 @@
+{
+    "redirect_url": "http://localhost",
+    "consumer_key": "6KIUAG5M35WNNUGSLGZXFISAI1J4KWDZ",
+    "security_code": "",
+    "scope": "PlaceTrades AccountAccess MoveMoney",
+    "expires_in": 1800,
+    "refresh_token_expires_in": 7776000,
+    "token_type": "Bearer"
+}
