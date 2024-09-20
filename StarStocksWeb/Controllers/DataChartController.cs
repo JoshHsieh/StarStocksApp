@@ -29,9 +29,9 @@ namespace StarStocksWeb.Controllers
 
         private readonly StockQuoteManager _qManger;
 
-        private readonly AssetManager _assManger;
+        private readonly AssetManager _assetManger;
 
-        public DataChartController(IWebHostEnvironment env, ILogger<DataChartController> logger, OptionDataManager opManager, DarkpoolManager dpManager, StockQuoteManager qManager, AssetManager assManager)
+        public DataChartController(IWebHostEnvironment env, ILogger<DataChartController> logger, OptionDataManager opManager, DarkpoolManager dpManager, StockQuoteManager qManager, AssetManager assetManager)
         {
             if (opManager == null)
             {
@@ -48,9 +48,9 @@ namespace StarStocksWeb.Controllers
                 throw new ArgumentNullException(nameof(qManager));
             }
 
-            if (assManager == null)
+            if (assetManager == null)
             {
-                throw new ArgumentNullException(nameof(assManager));
+                throw new ArgumentNullException(nameof(assetManager));
             }
 
             if (logger == null)
@@ -61,7 +61,7 @@ namespace StarStocksWeb.Controllers
             _opManger = opManager;
             _dpManger = dpManager;
             _qManger = qManager;
-            _assManger = assManager;
+            _assetManger = assetManager;
 
             _logger = logger;
         }
@@ -131,7 +131,7 @@ namespace StarStocksWeb.Controllers
 
                 vm.QuoteReport = report;
 
-                vm.PopulateAndAnalysis(_assManger, _qManger);
+                vm.PopulateAndAnalysis(_assetManger, _qManger);
                 vm.BriefFromTickGroup();
             }
             else
